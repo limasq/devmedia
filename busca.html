@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+        <title>consulta php sem refresh</title>
+		<style>
+			input {
+				margin-top: 5px;
+				width: 300px;
+			}
+			
+			button {
+				margin-top: 5px;
+			}
+		</style>
+		<script src="/js/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<form>
+			<input type="text" name="nome" id="nome" placeholder="Insira o nome ou parte do nome" />
+			<button type="button" id="buscarPalavra">Buscar</button>
+		</form>
+		
+		<p id="resultadoDaPesquisa"></p>
+		
+		<script>
+			$(document).ready(function(){
+			
+				function enviarPalavra(){
+					var palavraProcurada = $("#nome").val();
+					console.log("Target: " + palavraProcurada);
+					
+					$.ajax({
+						type: 'GET',
+						url: "connPDO.php",
+						data: {
+							palavra: palavraProcurada
+						},
+						beforeSend: function(){
+							$("#resultadoDaPesquisa").html("Carregando...");
+						},
+						success: function( result ) {
+							$( "#resultadoDaPesquisa" ).html( "<strong>" + result + "</strong> degrees" );
+						}
+					});
+				}
+				
+				$("button").click(enviarPalavra);
+			});
+		</script>
+	</body>
+</html>
